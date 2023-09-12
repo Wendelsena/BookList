@@ -1,7 +1,3 @@
 {
-  "products":[
-     {"id":1,"name":"Computador I7 256SD 16GRAM","price":10000},
-     {"id":2,"name":"Computador I5 125SD 8GRAM", "price":5500},
-     {"id":3,"name":"Monitor 17 LG",             "price":2500}
-  ]
+  "products": []
 }

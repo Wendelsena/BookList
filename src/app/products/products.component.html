@@ -12,7 +12,7 @@
     <input type=valor class="form-control" id="InputValor" placeholder="Preço" formControlName="price" name="price">
   </div>
 
-  <button type="save" class="btn btn-primary" style="margin-top: 10px;">Salvar</button>
+  <button type="save" class="btn btn-primary" (click)="save()" style="margin-top: 10px;">Salvar</button>
 </form>
 
 <table class="table table-striped">
@@ -21,6 +21,7 @@
       <th scope="col">Id</th>
       <th scope="col">Nome</th>
       <th scope="col">Preço</th>
+      <th scope="col">Opções</th>
     </tr>
   </thead>
   <tbody>
@@ -28,6 +29,7 @@
       <th scope="row">{{p.id}}</th>
       <td>{{p.name}}</td>
       <td>{{p.price}}</td>
+      <td><button class="btn btn-danger" (click)="delete(p)">Remover</button></td>
     </tr>
   </tbody>
 </table>

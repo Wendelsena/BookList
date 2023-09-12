@@ -1,3 +1,4 @@
+
 import { group } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -30,6 +31,26 @@ export class ProductsComponent implements OnInit {
            next: products => this.products = products
         }
       )
+  }
+
+  save(){
+    let product = this.formGroupProduct.value;
+    this.productService.save(product).subscribe(
+      {
+        next: product =>{
+        this.products.push(product);
+        this.formGroupProduct.reset();
+        }
+      }
+    )
+  }
+
+  delete(product: Product){
+    this.productService.delete(product).subscribe({
+      next: () => {
+        this.products = this.products.filter(p => p.id !== product.id)
+      }
+    })
   }
 
 }
