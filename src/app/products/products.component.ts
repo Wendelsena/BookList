@@ -45,6 +45,8 @@ export class ProductsComponent implements OnInit {
     )
   }
 
+  edit(product:Product){}
+
   delete(product: Product){
     this.productService.delete(product).subscribe({
       next: () => {

@@ -29,7 +29,9 @@
       <th scope="row">{{p.id}}</th>
       <td>{{p.name}}</td>
       <td>{{p.price}}</td>
-      <td><button class="btn btn-danger" (click)="delete(p)">Remover</button></td>
+      <td><button class="btn btn-danger" (click)="delete(p)">Remover</button>
+        <button class="btn btn-primary" (click)="edit(p)"style="margin-left: 10px;">Editar</button>
+      </td>
     </tr>
   </tbody>
 </table>
