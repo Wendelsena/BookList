@@ -4,15 +4,23 @@
 <form [formGroup]="formGroupProduct">
 
   <div class="form-inputs">
-    <label for="InputName">Nome</label>
-    <input type="name" class="form-control" id="InputName" aria-describedby="nameHelp" placeholder="Nome do produto" formControlName="name" name="name">
-  </div>
-  <div class="form-inputs">
-    <label for="InputValor">Preço</label>
-    <input type=valor class="form-control" id="InputValor" placeholder="Preço" formControlName="price" name="price">
+    <label for="InputName" class="form-label">Nome</label>
+    <input type="text" class="form-control" id="InputName" aria-describedby="nameHelp" placeholder="Nome do produto" formControlName="name" name="name">
+
+    <small *ngIf="submited && name.hasError('required')" class="text-danger">*O nome é requerido!</small>
+    <small *ngIf="submited && name.hasError('minlength')" class="text-danger">*O nome tem que ter no mínimo 3!</small>
+
+    </div>
+ <div>
+    <label for="InputValor" class="form-label">Preço</label>
+    <input type=text class="form-control" id="InputValor" placeholder="Preço" formControlName="price" name="price">
+
+    <small *ngIf="submited && price.hasError('required')" class="text-danger">O preço é requerido!</small>
+    <small *ngIf="submited && price.hasError('min')" class="text-danger">O preço deve ser maior ou igual a 0!</small>
   </div>
 
   <button type="save" class="btn btn-primary" (click)="save()" style="margin-top: 10px;">Salvar</button>
+  <button type="save" class="btn btn-primary me-2" (click)="cancel()" style="margin-top: 10px;">Cancelar</button>
 </form>
 
 <table class="table table-striped">

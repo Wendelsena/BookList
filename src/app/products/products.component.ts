@@ -1,7 +1,7 @@
 
 import { group } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Product } from '../models/product';
 import { ProductService } from '../product.service';
 
@@ -13,6 +13,9 @@ import { ProductService } from '../product.service';
 export class ProductsComponent implements OnInit {
 
   products : Product[] = [];
+  isEditing : boolean = false;
+  submited : boolean = false;
+  selectedProduct : Product = {} as Product;
   formGroupProduct : FormGroup;
 
   constructor(private productService: ProductService,
@@ -20,8 +23,8 @@ export class ProductsComponent implements OnInit {
               ){
 
       this.formGroupProduct = formBuilder.group({ // para declarar o formulario
-        name: [''],
-        price: ['']
+        name: ['',[Validators.required,Validators.minLength(3)]],
+        price: ['',[Validators.required,Validators.min(0)]]
       });
  }
 
@@ -34,18 +37,42 @@ export class ProductsComponent implements OnInit {
   }
 
   save(){
-    let product = this.formGroupProduct.value;
-    this.productService.save(product).subscribe(
-      {
-        next: product =>{
-        this.products.push(product);
-        this.formGroupProduct.reset();
+   this.submited = true;
+
+   if (this.formGroupProduct.valid) {
+
+    if (this.isEditing) {
+
+      this.selectedProduct.name = this.formGroupProduct.get("name")?.value;
+      this.selectedProduct.price = this.formGroupProduct.get("price")?.value;
+
+      this.productService.update(this.selectedProduct).subscribe({
+
+        next: () => {
+          this.formGroupProduct.reset();
+          this.isEditing = false;
+          this.submited = false;
+
         }
-      }
-    )
+      })
+    }
+    else {
+      this.productService.save(this.formGroupProduct.value).subscribe({
+        next: product => {
+          this.products.push(product);
+          this.formGroupProduct.reset();
+          this.submited = false;
+        }
+      })
+    }
+   }
   }
 
-  edit(product:Product){}
+  edit(product:Product) {
+    this.selectedProduct = product;
+    this.isEditing = true;
+    this.formGroupProduct.setValue({"name": product.name, "price": product.price});
+  }
 
   delete(product: Product){
     this.productService.delete(product).subscribe({
@@ -55,6 +82,18 @@ export class ProductsComponent implements OnInit {
     })
   }
 
+  cancel() {
+    this.formGroupProduct.reset();
+    this.isEditing = false;
+    this.submited = false;
+  }
+
+  get name(): any {
+    return this.formGroupProduct.get("name");
+  }
+  get price(): any {
+    return this.formGroupProduct.get("price");
+  }
 }
 
 
